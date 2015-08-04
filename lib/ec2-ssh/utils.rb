@@ -1,6 +1,7 @@
 module Ec2Ssh::Cli::Utils
   def open_in_terminal
     @all_servers.each do |server|
+      say "Opening #{server} in a new tab", color = :cyan
       `osascript <<-eof
          tell application "iTerm"
           make new terminal

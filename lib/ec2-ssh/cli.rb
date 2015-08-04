@@ -17,7 +17,7 @@ class Ec2Ssh::Cli  < Thor
   default_task :connect
 
   desc "connect", "Connect to autoscale instance (random instance), Pass --cmd='whatever' to run a cmd on the server (use ; to seperate commands)"
-  method_option :cmd,                              :desc => 'commmand to run on remote servers', :required => true
+  method_option :cmd,                              :desc => 'commmand to run on remote servers'
   method_option :profile,                          :desc => 'aws cli profile', :default => 'default'
   method_option :region,                           :desc => "region", :default => 'us-east-1'
   method_option :user,            :aliases => 'u', :desc => 'run as user', :default => 'ec2-user'
@@ -39,7 +39,7 @@ class Ec2Ssh::Cli  < Thor
       
     if options[:as]
       get_auto_scale_groups
-    elsif options[:tag_value]
+    else options[:tag_value]
       get_instances(options[:tag_key].chomp, options[:tag_value].chomp)
     end
     
