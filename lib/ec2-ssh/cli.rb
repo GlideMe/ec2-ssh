@@ -26,7 +26,7 @@ class Ec2Ssh::Cli  < Thor
   method_option :groups,          :aliases => 'g', :desc => 'run in groups'
   method_option :groups_limit,    :aliases => 'l', :desc => 'limit', :type => :numeric
   method_option :wait,            :aliases => 'w', :desc => 'wait',  :type => :numeric
-  method_option :as,                               :desc => 'get autoscale groups'
+  method_option :as,                               :desc => 'filter by autoscale groups'
   method_option :tag_key,                          :desc => 'tag key to filter instances by', :default => 'Name'
   method_option :tag_value,                        :desc => 'tag value to filter instances by'
   method_option :terminal,        :aliases => 't', :desc => 'open terminal tabs for all servers'
@@ -39,8 +39,12 @@ class Ec2Ssh::Cli  < Thor
       
     if options[:as]
       get_auto_scale_groups
-    else options[:tag_value]
+    elsif options[:tag_value]
       get_instances(options[:tag_key].chomp, options[:tag_value].chomp)
+    else
+      say "No value provided for filtering instances", color = :red
+      Ec2Ssh::Cli.start(%w{help connect})
+      exit
     end
     
     if options[:terminal]
