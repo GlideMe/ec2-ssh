@@ -31,6 +31,9 @@ class Ec2Ssh::Cli  < Thor
   method_option :tag_value,                        :desc => 'tag value to filter instances by'
   method_option :terminal,        :aliases => 't', :desc => 'open terminal tabs for all servers'
   method_option :capture_output,  :aliases => 'c', :desc => 'capture output'
+  method_option :upload,                           :desc => 'upload a file - source,destination (make sure seperate these by comma)', :banner => 'source,destination'
+  method_option :download,                         :desc => 'download a file - source,destination (make sure seperate these by comma)', :banner => 'source,destination'
+
   def connect
     extend Aws
     extend Ssh
@@ -68,7 +71,7 @@ class Ec2Ssh::Cli  < Thor
       dsl_options[:limit] = options[:groups_limit] if options[:groups_limit]
       
       say "dsl opts: #{dsl_options}", color = :cyan
-      ssh_to(options[:user], dsl_options, options[:cmd], options[:capture_output])
+      ssh_to(options[:user], dsl_options, options[:cmd], options[:capture_output], options[:upload], options[:download])
     end
   end
 
