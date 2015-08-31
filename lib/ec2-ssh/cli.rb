@@ -18,7 +18,7 @@ class Ec2Ssh::Cli  < Thor
 
   desc "connect", "Connect to autoscale instance (random instance), Pass --cmd='whatever' to run a cmd on the server (use ; to seperate commands)"
   method_option :cmd,                              :desc => 'commmand to run on remote servers'
-  method_option :profile,                          :desc => 'aws cli profile', :default => 'default'
+  method_option :profile,                          :desc => 'Aws cli profile name as listed in ~/aws/credentials', :default => 'default'
   method_option :region,                           :desc => "region", :default => 'us-east-1'
   method_option :user,            :aliases => 'u', :desc => 'run as user', :default => 'ec2-user'
   method_option :parallel,        :aliases => 'p', :desc => 'run in parallel'
@@ -30,6 +30,7 @@ class Ec2Ssh::Cli  < Thor
   method_option :tag_key,                          :desc => 'tag key to filter instances by', :default => 'Name'
   method_option :tag_value,                        :desc => 'tag value to filter instances by'
   method_option :terminal,        :aliases => 't', :desc => 'open terminal tabs for all servers'
+  method_option :capture_output,  :aliases => 'c', :desc => 'capture output'
   def connect
     extend Aws
     extend Ssh
@@ -67,7 +68,7 @@ class Ec2Ssh::Cli  < Thor
       dsl_options[:limit] = options[:groups_limit] if options[:groups_limit]
       
       say "dsl opts: #{dsl_options}", color = :cyan
-      ssh_to(options[:user], dsl_options, options[:cmd])
+      ssh_to(options[:user], dsl_options, options[:cmd], options[:capture_output])
     end
   end
 

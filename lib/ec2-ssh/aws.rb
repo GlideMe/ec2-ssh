@@ -1,4 +1,3 @@
-require 'pry'
 module Ec2Ssh::Cli::Aws
    def aws_init(profile, region)
     ENV['AWS_PROFILE'] = profile

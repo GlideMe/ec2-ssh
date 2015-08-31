@@ -12,10 +12,14 @@ module Ec2Ssh::Cli::Ssh
     }
   end
 
-  def ssh_to(user, dsl_options, cmd)
+  def ssh_to(user, dsl_options, cmd, capture_output)
     say "Running #{cmd} via ssh in #{dsl_options}", color = :cyan
     on @all_servers, dsl_options  do |host|
+      if capture_output
+        puts capture cmd
+      else
         execute cmd
+      end
     end
   end
 end
