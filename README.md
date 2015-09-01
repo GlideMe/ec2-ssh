@@ -83,6 +83,7 @@ Options:
   c, [--capture-output=CAPTURE_OUTPUT]  # capture output
       [--upload=source,destination]     # upload a file - source,destination (make sure seperate these by comma)
       [--download=source,destination]   # download a file - source,destination (make sure seperate these by comma)
+      [--pty=PTY]                       # enable pty for sudo operations
 
 Connect to autoscale instance (random instance), Pass --cmd='whatever' to run a cmd on the server (use ; to seperate commands)
 ````

@@ -1,15 +1,20 @@
 module Ec2Ssh::Cli::Ssh
-  def set_ssh(user)
+  def set_ssh(user, pty)
     ENV['SSHKIT_COLOR'] = 'TRUE'
     SSHKit.config.output_verbosity = Logger::DEBUG
-    SSHKit::Backend::Netssh.configure { |ssh|
-      ssh.ssh_options = {
+    ssh_options = {
         :user => user,
         :paranoid => false,
         :forward_agent => true,
         :user_known_hosts_file => '/dev/null'
-      }
     }
+
+    SSHKit::Backend::Netssh.configure { |ssh|
+      ssh.ssh_options = ssh_options
+      ssh.pty = true if pty
+    }
+
+
   end
 
   def ssh_to(user, dsl_options, cmd, capture_output, upload, download)

@@ -33,12 +33,12 @@ class Ec2Ssh::Cli  < Thor
   method_option :capture_output,  :aliases => 'c', :desc => 'capture output'
   method_option :upload,                           :desc => 'upload a file - source,destination (make sure seperate these by comma)', :banner => 'source,destination'
   method_option :download,                         :desc => 'download a file - source,destination (make sure seperate these by comma)', :banner => 'source,destination'
-
+  method_option :pty,                              :desc => 'enable pty for sudo operations', :default => false
   def connect
     extend Aws
     extend Ssh
     extend Utils
-    set_ssh(options[:user])
+    set_ssh(options[:user], options[:pty])
     aws_init(options[:profile], options[:region])
       
     if options[:as]
